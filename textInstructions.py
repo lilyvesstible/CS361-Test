@@ -1,4 +1,4 @@
-
+#All static text instructions
 
 def homeExplain():
     print("\n"\

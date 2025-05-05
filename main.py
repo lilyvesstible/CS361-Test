@@ -1,5 +1,7 @@
 from textInstructions import *
 
+#Display home page
+#Page navigation works like nested pages. This way, going back a page (ex. store items page to home page) is as simple as ending the page function.
 def homePage():
     homeExplain()
     while True:
@@ -16,6 +18,7 @@ def homePage():
         else:
             print("Sorry, I don't understand. Please type the command again")
 
+#Display store page
 def storeItemsPage():
     storeItemsExplain()
     while True:
@@ -23,6 +26,7 @@ def storeItemsPage():
         
         if i == "Home":
             return
+        #Categories return a 0 or 1. If 1, this means the command was go to home page, which means also exiting store items page.
         elif i == "Produce":
             if(categoryPage(produce, "produce") == 1):
                 return
@@ -42,6 +46,7 @@ def storeItemsPage():
         else:
             print("Sorry, I don't understand. Please type the command again")
 
+#Display category page. Same page for each category, but changes which category based on input
 def categoryPage(cat, catName):
     print("\nBelow is a list of " + catName + " items:\n")
     for i in cat:
@@ -63,9 +68,12 @@ def categoryPage(cat, catName):
         else:
             print("Sorry, I don't understand. Please type the command again")
 
+#Add an item to your list. Input: Desired category. Output: Updated list
 def addItem(itemStock):
+    #Tracks the tuple of the chosen item
     itemVal = (0,0)
     print("Which item would you like?")
+    #Gathers name of product, and searches through given category for item.
     while True:
         itemName = input()
         for i in itemStock:
@@ -79,10 +87,12 @@ def addItem(itemStock):
     print("How many do you want?")
     while True:
         itemQuan = input()
+        #If quantity is empty, assume to add only one item
         if itemQuan == "":
             print("Adding item...\n")
             itemList.append(itemVal)
             break
+        #Check if the input is iterable, then add the item that many times.
         elif itemQuan.isdigit() == True:
             print("Adding items...\n")
             for i in range(int(itemQuan)):
@@ -92,6 +102,7 @@ def addItem(itemStock):
             print("I'm sorry, but that quantity is invalid. Please try again.")
     return
 
+#Display list page
 def listPage():
     printTermList()
     while True:
@@ -107,6 +118,7 @@ def listPage():
         else:
             print("Sorry, I don't understand. Please type the command again")
 
+#Prints your list, along with the commands for this page.
 def printTermList():
     print("Below is your list of items:\n")
     for i in itemList:
@@ -114,15 +126,19 @@ def printTermList():
     print("\nTotal: $%.2f\n" %(updateTotal()))
     listExplain()
 
+#Gives the total cost of your list. Input: item list. Output: total cost of list
 def updateTotal():
     listTotal = 0.0
     for i in itemList:
         listTotal += float(i[1])
     return listTotal
 
+#Removes an item from your list.
 def removeItem():
+    #itemVal is chosen item as a tuple
     itemVal = (0,0)
     print("Which item would you like to remove?")
+    #Gathers a name, and checks the list for any items with that name.
     while True:
         itemName = input()
         for i in itemList:
@@ -134,13 +150,16 @@ def removeItem():
         print("I'm sorry, that name doesn't match an item in our list. Please try again.")
 
     print("How many do you want to remove?")
+    #Asks how many you want to remove
     while True:
         itemQuan = input()
+        #If input is empty, assume you want to remove all of that item. Check an additional time for confirmation
         if itemQuan == "":
             print("Are you sure you want to delete all instances of this item? Type 'Yes' to confirm")
             check = input()
             if check == "Yes":
                 print("Understood, deleting all items...\n")
+                #Continue to remove that item until there is no more
                 while True:
                     if itemVal in itemList:
                         itemList.remove(itemVal)
@@ -149,6 +168,7 @@ def removeItem():
             else:
                 print("You did not type 'Yes'. Going back to your list...\n")
             break
+        #Checks if itemQuan is iterable. If so, check if the item exists in the list, and if so remove it. 
         elif itemQuan.isdigit() == True:
             print("Deleting items...\n")
             for i in range(int(itemQuan)):
@@ -161,6 +181,7 @@ def removeItem():
             print("I'm sorry, but that quantity is invalid. Please try again.")
     return
 
+#Prints to a text file
 def printFile():
     print("What would you like to call this file?")
     textFileName = input()
@@ -172,7 +193,10 @@ def printFile():
     file.write("\nTotal: $%.2f" %(updateTotal()))
     file.close()
 
+#produce, deli, frozen, and shelf are lists that store the data of each item in that category. 
+#Each item is stored as a tuple: The first element is the item name, and the second element is the item price
 produce = []
+#Reads the data from text files that store data for each category. Adds each line as a separate element in the list, and splits the data by a "," to signify the difference between name and price. All categories work the same.
 file = open("produceList.txt", "r")
 for i in file.readlines():
     tmp = i.split(",")
@@ -200,6 +224,7 @@ for i in file.readlines():
     shelf.append((tmp[0], float(tmp[1])))
 file.close()
 
+#itemList contains your list of items to purchase.
 itemList = []
 
 homePage()
