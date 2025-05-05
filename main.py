@@ -80,9 +80,11 @@ def addItem(itemStock):
     while True:
         itemQuan = input()
         if itemQuan == "":
+            print("Adding item...\n")
             itemList.append(itemVal)
             break
         elif itemQuan.isdigit() == True:
+            print("Adding items...\n")
             for i in range(int(itemQuan)):
                 itemList.append(itemVal) 
             break
@@ -135,13 +137,20 @@ def removeItem():
     while True:
         itemQuan = input()
         if itemQuan == "":
-            while True:
-                if itemVal in itemList:
-                    itemList.remove(itemVal)
-                else:
-                    break
+            print("Are you sure you want to delete all instances of this item? Type 'Yes' to confirm")
+            check = input()
+            if check == "Yes":
+                print("Understood, deleting all items...\n")
+                while True:
+                    if itemVal in itemList:
+                        itemList.remove(itemVal)
+                    else:
+                        break
+            else:
+                print("You did not type 'Yes'. Going back to your list...\n")
             break
         elif itemQuan.isdigit() == True:
+            print("Deleting items...\n")
             for i in range(int(itemQuan)):
                 if itemVal in itemList:
                     itemList.remove(itemVal)
@@ -155,6 +164,7 @@ def removeItem():
 def printFile():
     print("What would you like to call this file?")
     textFileName = input()
+    print("Printing file...\n")
     file = open(textFileName + ".txt", "w")
     file.write("List of items to buy:\n")
     for i in itemList:
