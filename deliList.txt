@@ -1,0 +1,4 @@
+Hotdogs, 1.29
+Eggs, 5.49
+Cheddar Cheese Slices, 2.29
+Milk, 3.79

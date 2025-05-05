@@ -1,0 +1,4 @@
+Bread, 3.69
+Chips, 5.49
+Canned Soup, 2.79
+Crackers, 3.49

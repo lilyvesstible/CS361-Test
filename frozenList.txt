@@ -1,0 +1,4 @@
+Frozen Peas, 2.69
+Frozen Berries, 4.49
+Frozen Pizza, 6.99
+Ice Cream Sandwiches, 2.79
