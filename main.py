@@ -119,6 +119,9 @@ def listPage():
         elif i == "Print":
             printFile()
             printTermList()
+        elif i == "Enter Coupon":
+            applyCoupon()
+            printTermList()
         else:
             print("Sorry, I don't understand. Please type the command again")
 
@@ -197,13 +200,44 @@ def printFile():
     file.write("\nTotal: $%.2f" %(updateTotal()))
     file.close()
 
+def applyCoupon():
+    itemVal = (0,0)
+    print("Which item would you like to discount?")
+    while True:
+        itemName = input()
+        for i in itemList:
+            if i[0] == itemName:
+                itemVal = i
+                break
+        if itemVal != (0,0):
+            break
+        print("I'm sorry, that name doesn't match an item in our list. Please try again.")
+
+    print("Enter the coupon code")
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5555")
+
+    while True:
+        coupon = input()
+        socket.send_string("%s, %s" %(coupon, itemVal[1]))
+        message = socket.recv()
+        decode = message.decode()
+        if decode == "Code Not Found":
+            print("I'm sorry, that doesn't match a valid coupon code. Please try again.")
+        else:
+            itemList.remove(itemVal)
+            itemList.append(("%s [DISCOUNTED]" % itemVal[0], float(decode)))
+            break
+
+
 def couponPage():
     print("\nBelow is a list of coupons, with their code and discount amount. Apply the code when viewing your items!\n")
 
     file = open("../couponList.txt", "r")
     for i in file.readlines():
         tmp = i.split(", ")
-        print("%s: %s, %d%%" %(tmp[0], tmp[1], int(tmp[2])))
+        print("%s: %s, %d%%" %(tmp[0], tmp[1], float(tmp[2])))
     file.close()
     couponExplain()
 

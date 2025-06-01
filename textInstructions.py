@@ -62,6 +62,9 @@ def listExplain():
         ">Print\n"\
         "This exports your list onto a .txt file. From there, you may print this list on a printer.\n\n"\
         
+        ">Enter Coupon\n"\
+        "This allows you to apply a coupon of your choice to one item. Enter an item, then enter the coupon code. There will then be a discount applied to the item, along with a name change.\n\n"\
+        
         ">Home\n"\
         "Return to the home page.\n"
     )
