@@ -43,7 +43,7 @@ def categoryExplain():
         "Below are a list of commands you can perform. Phrases starting with a “>” are commands you can enter, followed by a description of their function.\n\n" \
 
         ">Add Item\n"\
-        "This adds an item to your shopping list. Once entered, the program will prompt you to list the item name. Enter the name exactly how it's formatted above. Then, enter the amount you want. If you simply want to enter one of that item, you can press enter without entering an amount.\n\n"\
+        "This adds an item to your shopping list. Once entered, the program will prompt you to list the item name. Enter the name exactly how it's formatted above. If we have multiple items of that brand, then you can then choose between the various brands. Then, enter the amount you want. If you simply want to enter one of that item, you can press enter without entering an amount.\n\n"\
         
         ">Store Items\n"\
         "Return to the store items page.\n\n"\

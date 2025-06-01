@@ -65,12 +65,21 @@ def categoryPage(cat, catName):
             return 1
         elif i == "Add Item":
             addItem(cat)
-            print("\nBelow is a list of produce items:\n")
+            print("\nBelow is a list of " + catName + " items:\n")
             for i in cat:
                 print("%s: $%.2f" % i)
             categoryExplain()
         else:
             print("Sorry, I don't understand. Please type the command again")
+
+#Takes a string sent by the Brand_Server, and parses the brands
+def decodeBrand(brands):
+    split1 = brands.split("; ")
+    splitfinal = []
+    for i in split1:
+        split2 = i.split(", ")
+        splitfinal.append(split2)
+    return splitfinal
 
 #Add an item to your list. Input: Desired category. Output: Updated list
 def addItem(itemStock):
@@ -87,6 +96,29 @@ def addItem(itemStock):
         if itemVal != (0,0):
             break
         print("I'm sorry, that name doesn't match an item in our list. Please try again.")
+    
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:6666")
+
+    socket.send_string(itemVal[0])
+    message = socket.recv()
+    if message != "Item Not Found":
+        print("We have different brands of this item! Which one would you like?\n")
+        brands = decodeBrand(message.decode())
+        for i in brands:
+            print("%s: $%.2f" % (i[0], float(i[1])))
+        while True:
+            itemBrand = input()
+            found = 0
+            for i in brands:
+                if itemBrand == i[0]:
+                    itemVal = (i[0], float(i[1]))
+                    found = 1
+                    break
+            if found == 1:
+                break
+            print("I'm sorry, that name doesn't match a brand on our list. Please try again.")
     
     print("How many do you want?")
     while True:
