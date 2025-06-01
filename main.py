@@ -1,4 +1,5 @@
 from textInstructions import *
+import zmq
 
 #Display home page
 #Page navigation works like nested pages. This way, going back a page (ex. store items page to home page) is as simple as ending the page function.
@@ -14,6 +15,9 @@ def homePage():
             homeExplain()
         elif i == "List Items":
             listPage()
+            homeExplain()
+        elif i == "Coupons":
+            couponPage()
             homeExplain()
         else:
             print("Sorry, I don't understand. Please type the command again")
@@ -192,6 +196,23 @@ def printFile():
         file.write(i[0] + ": $" + str(i[1]) + "\n")
     file.write("\nTotal: $%.2f" %(updateTotal()))
     file.close()
+
+def couponPage():
+    print("\nBelow is a list of coupons, with their code and discount amount. Apply the code when viewing your items!\n")
+
+    file = open("../couponList.txt", "r")
+    for i in file.readlines():
+        tmp = i.split(", ")
+        print("%s: %s, %d%%" %(tmp[0], tmp[1], int(tmp[2])))
+    file.close()
+    couponExplain()
+
+    while True:
+        i = input()
+        if i == "Home":
+            return
+        else:
+            print("Sorry, I don't understand. Please type the command again")
 
 #produce, deli, frozen, and shelf are lists that store the data of each item in that category. 
 #Each item is stored as a tuple: The first element is the item name, and the second element is the item price

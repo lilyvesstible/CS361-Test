@@ -11,6 +11,9 @@ def homeExplain():
         ">List Items\n" \
         "Here, you can view your list, delete items, or print your list.\n\n" \
         
+        ">Coupons\n" \
+        "Here, you can view coupons available to you.\n\n" \
+        
         ">Exit\n" \
         "This allows you to exit the program.\n")
     
@@ -58,6 +61,14 @@ def listExplain():
         
         ">Print\n"\
         "This exports your list onto a .txt file. From there, you may print this list on a printer.\n\n"\
+        
+        ">Home\n"\
+        "Return to the home page.\n"
+    )
+
+def couponExplain():
+    print("\n"\
+        "Below are a list of commands you can perform. Phrases starting with a “>” are commands you can enter, followed by a description of their function.\n\n"\
         
         ">Home\n"\
         "Return to the home page.\n"
