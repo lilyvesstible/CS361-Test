@@ -76,3 +76,14 @@ def couponExplain():
         ">Home\n"\
         "Return to the home page.\n"
     )
+
+def locationExplain():
+    print("\n"\
+        "Before you begin, you must pick a location to shop from:\n\n" \
+
+        "Corvallis Location\n" \
+        "Albany Location\n" \
+        "Salem Location\n\n" \
+        
+        "Please type the chosen location below."
+    )

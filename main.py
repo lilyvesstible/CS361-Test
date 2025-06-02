@@ -1,6 +1,23 @@
 from textInstructions import *
 import zmq
 
+#Returns both the name of the location, and a list of all the items that are out of stock
+def locationPage():
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:7777")
+
+    locationExplain()
+    while True:
+        i = input()
+        socket.send_string(i)
+        message = socket.recv()
+        decode = message.decode()
+        if decode != "Store Not Found":
+            return i, decode.split(", ")
+        print("I'm sorry, that name doesn't match a location in our list. Please try again.")
+
+
 #Display home page
 #Page navigation works like nested pages. This way, going back a page (ex. store items page to home page) is as simple as ending the page function.
 def homePage():
@@ -97,6 +114,7 @@ def addItem(itemStock):
             break
         print("I'm sorry, that name doesn't match an item in our list. Please try again.")
     
+    #Brand Microservice
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:6666")
@@ -232,6 +250,7 @@ def printFile():
     file.write("\nTotal: $%.2f" %(updateTotal()))
     file.close()
 
+#Applies coupon to item
 def applyCoupon():
     itemVal = (0,0)
     print("Which item would you like to discount?")
@@ -262,7 +281,7 @@ def applyCoupon():
             itemList.append(("%s [DISCOUNTED]" % itemVal[0], float(decode)))
             break
 
-
+#Displays coupons
 def couponPage():
     print("\nBelow is a list of coupons, with their code and discount amount. Apply the code when viewing your items!\n")
 
@@ -314,4 +333,8 @@ file.close()
 #itemList contains your list of items to purchase.
 itemList = []
 
+storeLocation = ""
+outOfStock = []
+
+storeLocation, outOfStock = locationPage()
 homePage()
